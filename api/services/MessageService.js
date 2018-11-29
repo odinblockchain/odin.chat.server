@@ -7,7 +7,7 @@ class MessageService {
 
     async get(deviceId, registrationId) {
         console.log(`Looking up messages: device [${deviceId}] registration [${registrationId}]`);
-        
+
         return this.db.get(`m-${deviceId}-${registrationId}`)
     }
 
