@@ -22,8 +22,11 @@ db.put('123-456', {
     }
 });
 
-const KeyService = require('./services/KeysService');
+const KeyService = require('./services/KeyService');
 const keysService = new KeyService(db);
+
+const MessageService = require('./services/MessageService');
+const messageService = new MessageService(db);
 
 const app = express();
 app.use(cors());
