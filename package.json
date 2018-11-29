@@ -8,6 +8,8 @@
   "dependencies": {
     "cors": "^2.8.5",
     "express": "^4.16.4",
+    "body-parser": "^1.18.3",
+    "cookie-parser": "^1.4.3",
     "level": "^4.0.0",
     "lodash": "^1.2.0",
     "nodemon": "^1.18.6"
