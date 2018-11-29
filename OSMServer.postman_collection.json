@@ -6,27 +6,99 @@
 	},
 	"item": [
 		{
-			"name": "localhost:3000/keys?deviceId=1236&registrationId=456",
+			"name": "localhost:3000/keys?deviceId=123&registrationId=456",
 			"request": {
 				"method": "GET",
-				"header": [],
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
 				"body": {
 					"mode": "raw",
 					"raw": ""
 				},
 				"url": {
-					"raw": "localhost:3000/keys?deviceId=1236&registrationId=456",
+					"raw": "localhost:3000/messages?deviceId=123&registrationId=456",
 					"host": [
 						"localhost"
 					],
 					"port": "3000",
 					"path": [
-						"keys"
+						"messages"
 					],
 					"query": [
 						{
 							"key": "deviceId",
-							"value": "1236"
+							"value": "123"
+						},
+						{
+							"key": "registrationId",
+							"value": "456"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "localhost:3000/messages",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n            \"destinationDeviceId\": 123,\n            \"destinationRegistrationId\": 456,\n            \"ciphertextMessage\": \"unencrypted message...arghhh\"\n        }"
+				},
+				"url": {
+					"raw": "localhost:3000/messages",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"messages"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "localhost:3000/messages?deviceId=123&registrationId=456",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "localhost:3000/messages?deviceId=123&registrationId=456",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"messages"
+					],
+					"query": [
+						{
+							"key": "deviceId",
+							"value": "123"
 						},
 						{
 							"key": "registrationId",
