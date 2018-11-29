@@ -1,0 +1,41 @@
+{
+	"info": {
+		"_postman_id": "a87995b5-8f44-4589-beda-631002a6ba30",
+		"name": "OSMServer",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "localhost:3000/keys?deviceId=1236&registrationId=456",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "localhost:3000/keys?deviceId=1236&registrationId=456",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"keys"
+					],
+					"query": [
+						{
+							"key": "deviceId",
+							"value": "1236"
+						},
+						{
+							"key": "registrationId",
+							"value": "456"
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

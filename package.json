@@ -1,9 +1,9 @@
 {
-  "name": "odin-server",
+  "name": "osm-server",
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "start": "nodemon ./api/server.js"
+    "start": "nodemon ./api/OSMServer.js"
   },
   "dependencies": {
     "cors": "^2.8.5",

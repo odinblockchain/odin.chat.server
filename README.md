@@ -1,4 +1,4 @@
-# odin-server
+# osm-server
 
 ## Project setup
 ```
