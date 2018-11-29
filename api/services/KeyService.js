@@ -8,7 +8,7 @@ class KeyService {
     async get(deviceId, registrationId) {
         console.log(`Looking up keys: device [${deviceId}] registration [${registrationId}]`);
 
-        return this.db.get(`${deviceId}-${registrationId}`)
+        return this.db.get(`k-${deviceId}-${registrationId}`)
     }
 }
 
