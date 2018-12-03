@@ -23,10 +23,10 @@ class MessageService {
         });
     }
 
-    async del (deviceId, registrationId, timestamp) {
-        console.log(`Deleting messages: device [${deviceId}] registration [${registrationId}] timestamp [${timestamp}]`);
+    async del (key) {
+        console.log(`Deleting messages: key [${key}]`);
 
-        return this.db.del(`m-${deviceId}-${registrationId}-${timestamp}`);
+        return this.db.del(`${key}`);
     }
 
     async put (message, timestamp = new Date().getTime()) {

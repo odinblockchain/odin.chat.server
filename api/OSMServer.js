@@ -60,11 +60,17 @@ const getMessages = async (req, res) => {
 
     try {
         const resp = await messageService.get(req.query.deviceId, req.query.registrationId);
-        
+
         console.log(`-- RESP --`);
         console.log(resp);
 
         res.json(resp);
+
+        // remove messages
+        if (resp) {
+            resp.forEach((m) => messageService.del(m.key));
+        }
+
     } catch (ex) {
         console.error(`-- EX --`);
         console.error(ex);
