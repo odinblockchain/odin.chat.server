@@ -8,13 +8,13 @@ class MessageService {
         console.log(`Looking up messages: device [${deviceId}] registration [${registrationId}]`);
 
         const messages = [];
-        const stream = this.db.createReadStream({gte: `m-${deviceId}-${registrationId}`})
-            .on('data', function (data) {
-                console.log(data);
-                messages.push(data);
+        const stream = this.db
+            .createReadStream({
+                gte: `m-${deviceId}-${registrationId}`,
+                lte: `m-${deviceId}-${registrationId}-999999999999999`
             })
-            .on('close', function () {
-                console.log('Stream closed');
+            .on('data', function (data) {
+                messages.push(data);
             });
 
         return new Promise((resolve, reject) => {
