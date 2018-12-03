@@ -60,7 +60,7 @@ const getMessages = async (req, res) => {
 
     try {
         const resp = await messageService.get(req.query.deviceId, req.query.registrationId);
-
+        
         console.log(`-- RESP --`);
         console.log(resp);
 
