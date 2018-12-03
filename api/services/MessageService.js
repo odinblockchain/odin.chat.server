@@ -8,13 +8,13 @@ class MessageService {
         console.log(`Looking up messages: device [${deviceId}] registration [${registrationId}]`);
 
         const messages = [];
-        const stream = this.db.createReadStream({gte: `m-${deviceId}-${registrationId}`})
-            .on('data', function (data) {
-                console.log(data);
-                messages.push(data);
+        const stream = this.db
+            .createReadStream({
+                gte: `m-${deviceId}-${registrationId}`,
+                lte: `m-${deviceId}-${registrationId}-999999999999999`
             })
-            .on('close', function () {
-                console.log('Stream closed');
+            .on('data', function (data) {
+                messages.push(data);
             });
 
         return new Promise((resolve, reject) => {
@@ -23,10 +23,10 @@ class MessageService {
         });
     }
 
-    async del (deviceId, registrationId, timestamp) {
-        console.log(`Deleting messages: device [${deviceId}] registration [${registrationId}] timestamp [${timestamp}]`);
+    async del (key) {
+        console.log(`Deleting messages: key [${key}]`);
 
-        return this.db.del(`m-${deviceId}-${registrationId}-${timestamp}`);
+        return this.db.del(`${key}`);
     }
 
     async put (message, timestamp = new Date().getTime()) {
