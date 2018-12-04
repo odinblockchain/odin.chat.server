@@ -11,12 +11,18 @@ app.use(bodyParser.json());
 
 // TODO add authentication
 // TODO add JSON Schema validator once API more defined
-// TODO add unhandled route middleware
 
 const keys = require('./routes/keys');
 const messages = require('./routes/messages');
 
 app.use('/keys', keys);
 app.use('/messages', messages);
+
+// Catch all others
+app.get('*', function (req, res) {
+    res.status(404).json({
+        error: "unknown route"
+    });
+});
 
 module.exports = app;
