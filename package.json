@@ -3,7 +3,8 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "start": "nodemon NODE_ENV=development ./api/OSMServer.js"
+    "start": "nodemon NODE_ENV=development ./api/OSMServer.js",
+    "test": "NODE_ENV=test ./node_modules/.bin/mocha test/**/*.spec.js"
   },
   "dependencies": {
     "body-parser": "^1.18.3",
@@ -16,5 +17,8 @@
     "nodemon": "^1.18.6",
     "winston": "^3.1.0"
   },
-  "devDependencies": {}
+  "devDependencies": {
+    "chai": "^4.2.0",
+    "mocha": "^5.2.0"
+  }
 }

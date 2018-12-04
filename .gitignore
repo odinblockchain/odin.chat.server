@@ -24,3 +24,4 @@ yarn-error.log*
 /data/osm-db/
 /logs/errors.log
 /logs/application.log
+/data/osm-test-db/
