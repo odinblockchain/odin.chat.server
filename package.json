@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "start": "nodemon NODE_ENV=development ./api/OSMServer.js",
-    "test": "NODE_ENV=test ./node_modules/.bin/mocha test/**/*.spec.js"
+    "test": "NODE_ENV=test ./node_modules/.bin/mocha test/**/**/*.spec.js"
   },
   "dependencies": {
     "body-parser": "^1.18.3",
