@@ -15,5 +15,5 @@ describe('OSMServer integration tests', function () {
                 done(err);
             });
     });
-    
+
 });

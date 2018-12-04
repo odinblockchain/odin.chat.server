@@ -18,6 +18,11 @@ npm install
 npm run start
 ```
 
+### Running Tests
+```
+npm test
+```
+
 ### Postman
 
 Import the `OSMServer.postman_collection.json` file into [Postman](https://www.getpostman.com/) to test the API manually.
