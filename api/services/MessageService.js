@@ -26,7 +26,7 @@ class MessageService {
     }
 
     async del(key) {
-        logger.info(`Deleting messages: key [${key}]`);
+        logger.info(`Deleting message: key [${key}]`);
 
         return this.db.del(`${key}`);
     }
