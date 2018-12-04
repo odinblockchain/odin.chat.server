@@ -24,7 +24,7 @@ describe('MessageService tests', function () {
 
         await this.messageService.put(msg, 1543929140915);
 
-        const result = await this.messageService.get(msg.destinationDeviceId, msg.destinationRegistrationId);
+        let result = await this.messageService.get(msg.destinationDeviceId, msg.destinationRegistrationId);
 
         expect(_.size(result)).to.be.equal(1);
 
@@ -40,4 +40,23 @@ describe('MessageService tests', function () {
         });
     });
 
+    it('should be able to put & delete a message', async () => {
+
+        const msg = {
+            destinationDeviceId: 456,
+            destinationRegistrationId: 123,
+            ciphertextMessage: "hello"
+        };
+
+        await this.messageService.put(msg, 1543929140915);
+
+        let result = await this.messageService.get(msg.destinationDeviceId, msg.destinationRegistrationId);
+
+        expect(_.size(result)).to.be.equal(1);
+
+        await this.messageService.del('m-456-123-1543929140915');
+
+        result = await this.messageService.get(msg.destinationDeviceId, msg.destinationRegistrationId);
+        expect(_.size(result)).to.be.equal(0);
+    });
 });
