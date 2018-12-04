@@ -1,3 +1,4 @@
+const logger = require('../logging');
 
 class KeyService {
 
@@ -6,14 +7,14 @@ class KeyService {
     }
 
     async get(deviceId, registrationId) {
-        console.log(`Looking up keys: device [${deviceId}] registration [${registrationId}]`);
+        logger.info(`Looking up keys: device [${deviceId}] registration [${registrationId}]`);
 
-        return this.db.get(`k-${deviceId}-${registrationId}`)
+        return this.db.get(`k-${deviceId}-${registrationId}`);
     }
 
     async put(key) {
         const {deviceId, registrationId} = key;
-        console.log(`Put key:  device [${deviceId}] registration [${registrationId}]`);
+        logger.info(`Put key:  device [${deviceId}] registration [${registrationId}]`);
 
         const keyObj = {
             ...key,
@@ -21,6 +22,5 @@ class KeyService {
         return this.db.put(`k-${deviceId}-${registrationId}`, keyObj);
     }
 }
-
 
 module.exports = KeyService;
