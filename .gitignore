@@ -19,6 +19,8 @@ yarn-error.log*
 *.sln
 *.sw*
 
-data
-
 .idea
+/osm-server.iml
+/data/osm-db/
+/logs/errors.log
+/logs/application.log

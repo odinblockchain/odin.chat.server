@@ -1,11 +1,13 @@
+const logger = require('../logging');
+
 class MessageService {
 
-    constructor (_database) {
+    constructor(_database) {
         this.db = _database;
     }
 
-    async get (deviceId, registrationId) {
-        console.log(`Looking up messages: device [${deviceId}] registration [${registrationId}]`);
+    async get(deviceId, registrationId) {
+        logger.info(`Looking up messages: device [${deviceId}] registration [${registrationId}]`);
 
         const messages = [];
         const stream = this.db
@@ -23,15 +25,15 @@ class MessageService {
         });
     }
 
-    async del (key) {
-        console.log(`Deleting messages: key [${key}]`);
+    async del(key) {
+        logger.info(`Deleting messages: key [${key}]`);
 
         return this.db.del(`${key}`);
     }
 
-    async put (message, timestamp = new Date().getTime()) {
+    async put(message, timestamp = new Date().getTime()) {
         const {destinationDeviceId, destinationRegistrationId} = message;
-        console.log(`Put message:  device [${destinationDeviceId}] registration [${destinationRegistrationId}]`);
+        logger.info(`Put message:  device [${destinationDeviceId}] registration [${destinationRegistrationId}]`);
 
         const msgObj = {
             ...message,
