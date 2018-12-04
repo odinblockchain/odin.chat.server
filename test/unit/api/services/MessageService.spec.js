@@ -1,11 +1,11 @@
 const expect = require('chai').expect;
 const _ = require('lodash');
 
-const MessageService = require('../../../api/services/MessageService');
+const MessageService = require('../../../../api/services/MessageService');
 
 // DB should use test-db due to config
-const db = require('../../../api/database');
-const flushDb = require("../../testUtils").flushDb;
+const db = require('../../../../api/database');
+const flushDb = require("../../../testUtils").flushDb;
 
 describe('MessageService tests', function () {
 

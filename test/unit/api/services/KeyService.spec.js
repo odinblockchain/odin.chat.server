@@ -1,10 +1,10 @@
 const expect = require('chai').expect;
 
-const KeyService = require('../../../api/services/KeyService');
+const KeyService = require('../../../../api/services/KeyService');
 
 // DB should use test-db due to config
-const db = require('../../../api/database');
-const flushDb = require("../../testUtils").flushDb;
+const db = require('../../../../api/database');
+const flushDb = require("../../../testUtils").flushDb;
 
 describe('KeyService tests', function () {
 
