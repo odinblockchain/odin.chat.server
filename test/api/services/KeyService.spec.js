@@ -4,10 +4,12 @@ const KeyService = require('../../../api/services/KeyService');
 
 // DB should use test-db due to config
 const db = require('../../../api/database');
+const flushDb = require("../../testUtils").flushDb;
 
 describe('KeyService tests', function () {
 
-    beforeEach(() => {
+    beforeEach(async () => {
+        await flushDb(db);
         this.keyService = new KeyService(db);
     });
 
