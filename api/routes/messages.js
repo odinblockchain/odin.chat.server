@@ -16,12 +16,6 @@ const getMessages = async (req, res) => {
         logger.info(`Found messages: ${JSON.stringify(resp)}`);
 
         res.json(resp);
-
-        // remove messages
-        if (resp) {
-            resp.forEach((m) => messageService.del(m.key));
-        }
-
     } catch (ex) {
         logger.error(ex);
 
@@ -43,7 +37,22 @@ const putMessage = async (req, res) => {
     }
 };
 
+const deleteMessage = async (req, res) => {
+    logger.info(`Delete message: key [${req.query.key}]`);
+
+    try {
+        await messageService.del(req.query.key);
+
+        res.status(200).send(`OK`);
+    } catch (ex) {
+        logger.error(ex);
+
+        res.status(500).send(ex.toString());
+    }
+};
+
 messages.get('/', getMessages);
 messages.put('/', putMessage);
+messages.delete('/', deleteMessage);
 
 module.exports = messages;
