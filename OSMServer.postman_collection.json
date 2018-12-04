@@ -221,6 +221,34 @@
 				}
 			},
 			"response": []
+		},
+		{
+			"name": "localhost:3000/messages?key=m-123-456-1543931456014",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "localhost:3000/messages?key=m-123-456-1543931456014",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"messages"
+					],
+					"query": [
+						{
+							"key": "key",
+							"value": "m-123-456-1543931456014"
+						}
+					]
+				}
+			},
+			"response": []
 		}
 	]
 }
