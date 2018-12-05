@@ -28,60 +28,139 @@ describe('/messages integration tests', function () {
             .catch((err) => done(err));
     });
 
-    it('should validate missing param [deviceId]', function (done) {
-        request(app)
-            .get('/messages')
-            .query({
-                registrationId: 456,
-            })
-            .expect('Content-Type', /json/)
-            .expect(400)
-            .then(response => {
-                expect(response.body.errors).to.deep.equal([
-                    {
-                        "field": [
-                            "deviceId"
-                        ],
-                        "location": "query",
-                        "messages": [
-                            "\"deviceId\" is required"
-                        ],
-                        "types": [
-                            "any.required"
-                        ]
-                    }
-                ]);
-                return done();
-            })
-            .catch((err) => done(err));
-    });
+    describe('validation', function () {
 
-    it('should validate missing param [registrationId]', function (done) {
-        request(app)
-            .get('/messages')
-            .query({
-                deviceId: 123,
-            })
-            .expect('Content-Type', /json/)
-            .expect(400)
-            .then(response => {
-                expect(response.body.errors).to.deep.equal([
-                    {
-                        "field": [
-                            "registrationId"
-                        ],
-                        "location": "query",
-                        "messages": [
-                            "\"registrationId\" is required"
-                        ],
-                        "types": [
-                            "any.required"
-                        ]
-                    }
-                ]);
-                return done();
-            })
-            .catch((err) => done(err));
-    });
+        describe('GET message', function () {
+            it('should validate missing query param [deviceId]', function (done) {
+                request(app)
+                    .get('/messages')
+                    .query({
+                        registrationId: 456,
+                    })
+                    .expect('Content-Type', /json/)
+                    .expect(400)
+                    .then(response => {
+                        validateMissingQueryElement(response, "deviceId");
+                        return done();
+                    })
+                    .catch((err) => done(err));
+            });
 
+            it('should validate missing query param [registrationId]', function (done) {
+                request(app)
+                    .get('/messages')
+                    .query({
+                        deviceId: 123,
+                    })
+                    .expect('Content-Type', /json/)
+                    .expect(400)
+                    .then(response => {
+                        validateMissingQueryElement(response, "registrationId");
+                        return done();
+                    })
+                    .catch((err) => done(err));
+            });
+        });
+
+        describe('PUT messages', function () {
+            it('should validate missing body param [destinationDeviceId]', function (done) {
+                request(app)
+                    .put('/messages')
+                    .send({
+                        // destinationDeviceId: 456,
+                        destinationRegistrationId: 456,
+                        ciphertextMessage: "some message",
+                    })
+                    .expect('Content-Type', /json/)
+                    .expect(400)
+                    .then(response => {
+                        validateMissingBodyElement(response, "destinationDeviceId");
+                        return done();
+                    })
+                    .catch((err) => done(err));
+            });
+
+            it('should validate missing body param [destinationRegistrationId]', function (done) {
+                request(app)
+                    .put('/messages')
+                    .send({
+                        destinationDeviceId: 456,
+                        // destinationRegistrationId: 456,
+                        ciphertextMessage: "some message",
+                    })
+                    .expect('Content-Type', /json/)
+                    .expect(400)
+                    .then(response => {
+                        validateMissingBodyElement(response, "destinationRegistrationId");
+                        return done();
+                    })
+                    .catch((err) => done(err));
+            });
+
+            it('should validate missing body param [ciphertextMessage]', function (done) {
+                request(app)
+                    .put('/messages')
+                    .send({
+                        destinationDeviceId: 456,
+                        destinationRegistrationId: 456,
+                        // ciphertextMessage: "some message",
+                    })
+                    .expect('Content-Type', /json/)
+                    .expect(400)
+                    .then(response => {
+                        validateMissingBodyElement(response, "ciphertextMessage");
+                        return done();
+                    })
+                    .catch((err) => done(err));
+            });
+        });
+
+        describe('DELETE messages', function () {
+            it('should validate missing query param [key]', function (done) {
+                request(app)
+                    .delete('/messages')
+                    .expect('Content-Type', /json/)
+                    .expect(400)
+                    .then(response => {
+                        validateMissingQueryElement(response, "key");
+                        return done();
+                    })
+                    .catch((err) => done(err));
+            });
+        });
+
+        function validateMissingQueryElement(response, element) {
+            expect(response.body.errors).to.deep.equal([
+                {
+                    "field": [
+                        element
+                    ],
+                    "location": "query",
+                    "messages": [
+                        `"${element}" is required`
+                    ],
+                    "types": [
+                        "any.required"
+                    ]
+                }
+            ]);
+        }
+
+        function validateMissingBodyElement(response, element) {
+            expect(response.body.errors).to.deep.equal([
+                {
+                    "field": [
+                        element
+                    ],
+                    "location": "body",
+                    "messages": [
+                        `"${element}" is required`
+                    ],
+                    "types": [
+                        "any.required"
+                    ]
+                }
+            ]);
+        }
+    });
 });
