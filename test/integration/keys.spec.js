@@ -97,7 +97,7 @@ describe('/keys integration tests', function () {
         });
 
         describe('PUT keys', function () {
-            it('should validate missing body param [deviceId]', function () {
+            it('should validate missing body param [deviceId]', function (done) {
                 request(app)
                     .put('/keys')
                     .send({
@@ -124,6 +124,38 @@ describe('/keys integration tests', function () {
                     .expect(400)
                     .then(response => {
                         validateMissingBodyElement(response, "deviceId");
+                        return done();
+                    })
+                    .catch((err) => done(err));
+            });
+        });
+
+        describe('GET count keys', function () {
+            it('should validate missing query param [deviceId]', function (done) {
+                request(app)
+                    .get('/keys/count')
+                    .query({
+                        registrationId: 456,
+                    })
+                    .expect('Content-Type', /json/)
+                    .expect(400)
+                    .then(response => {
+                        validateMissingQueryElement(response, "deviceId");
+                        return done();
+                    })
+                    .catch((err) => done(err));
+            });
+
+            it('should validate missing query param [registrationId]', function (done) {
+                request(app)
+                    .get('/keys/count')
+                    .query({
+                        deviceId: 123,
+                    })
+                    .expect('Content-Type', /json/)
+                    .expect(400)
+                    .then(response => {
+                        validateMissingQueryElement(response, "registrationId");
                         return done();
                     })
                     .catch((err) => done(err));
