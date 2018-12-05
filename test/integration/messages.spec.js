@@ -14,7 +14,8 @@ describe('/messages integration tests', function () {
 
     it('should return 200 and empty body when no messages found for keys', function (done) {
         request(app)
-            .get('/messages', {
+            .get('/messages')
+            .query({
                 deviceId: 123,
                 registrationId: 456,
             })
@@ -24,7 +25,63 @@ describe('/messages integration tests', function () {
                 expect(response.body).to.deep.equal([]);
                 done();
             })
-            .catch((err) => done(err))
+            .catch((err) => done(err));
+    });
+
+    it('should validate missing param [deviceId]', function (done) {
+        request(app)
+            .get('/messages')
+            .query({
+                registrationId: 456,
+            })
+            .expect('Content-Type', /json/)
+            .expect(400)
+            .then(response => {
+                expect(response.body.errors).to.deep.equal([
+                    {
+                        "field": [
+                            "deviceId"
+                        ],
+                        "location": "query",
+                        "messages": [
+                            "\"deviceId\" is required"
+                        ],
+                        "types": [
+                            "any.required"
+                        ]
+                    }
+                ]);
+                return done();
+            })
+            .catch((err) => done(err));
+    });
+
+    it('should validate missing param [registrationId]', function (done) {
+        request(app)
+            .get('/messages')
+            .query({
+                deviceId: 123,
+            })
+            .expect('Content-Type', /json/)
+            .expect(400)
+            .then(response => {
+                expect(response.body.errors).to.deep.equal([
+                    {
+                        "field": [
+                            "registrationId"
+                        ],
+                        "location": "query",
+                        "messages": [
+                            "\"registrationId\" is required"
+                        ],
+                        "types": [
+                            "any.required"
+                        ]
+                    }
+                ]);
+                return done();
+            })
+            .catch((err) => done(err));
     });
 
 });
