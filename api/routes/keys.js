@@ -1,4 +1,5 @@
 const keys = require('express').Router();
+const validate = require('express-validation');
 
 const db = require('../database');
 
@@ -6,6 +7,8 @@ const KeyService = require('../services/KeyService');
 const keyService = new KeyService(db);
 
 const logger = require('../logging');
+
+const validation = require('./validation/keys');
 
 const getKey = async (req, res) => {
     logger.info(`Get keys: device [${req.query.deviceId}] registration [${req.query.registrationId}]`);
@@ -37,7 +40,7 @@ const putKey = async (req, res) => {
     }
 };
 
-keys.get('/', getKey);
-keys.put('/', putKey);
+keys.get('/', validate(validation.GetKeys), getKey);
+keys.put('/', validate(validation.RegisterKeys), putKey);
 
 module.exports = keys;

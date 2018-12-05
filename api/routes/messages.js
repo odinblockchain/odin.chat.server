@@ -1,11 +1,14 @@
 const messages = require('express').Router();
+const validate = require('express-validation');
+
+const logger = require('../logging');
 
 const db = require('../database');
 
 const MessageService = require('../services/MessageService');
 const messageService = new MessageService(db);
 
-const logger = require('../logging');
+const validation = require('./validation/messages');
 
 const getMessages = async (req, res) => {
     logger.info(`Get messages: device [${req.query.deviceId}] registration [${req.query.registrationId}]`);
@@ -51,8 +54,8 @@ const deleteMessage = async (req, res) => {
     }
 };
 
-messages.get('/', getMessages);
-messages.put('/', putMessage);
-messages.delete('/', deleteMessage);
+messages.get('/', validate(validation.GetMessage), getMessages);
+messages.put('/', validate(validation.CreateMessage), putMessage);
+messages.delete('/', validate(validation.DeleteMessage), deleteMessage);
 
 module.exports = messages;
