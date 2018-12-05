@@ -1,8 +1,13 @@
 const request = require('supertest');
 const expect = require('chai').expect;
 
-const app = require('../../api/OSMServer');
+const {
+    validateMissingQueryElement,
+    validateMissingBodyElement
+} = require("../assertionutils");
 
+
+const app = require('../../api/OSMServer');
 const db = require('../../api/database');
 const flushDb = require("../testUtils").flushDb;
 
@@ -128,39 +133,5 @@ describe('/messages integration tests', function () {
                     .catch((err) => done(err));
             });
         });
-
-        function validateMissingQueryElement(response, element) {
-            expect(response.body.errors).to.deep.equal([
-                {
-                    "field": [
-                        element
-                    ],
-                    "location": "query",
-                    "messages": [
-                        `"${element}" is required`
-                    ],
-                    "types": [
-                        "any.required"
-                    ]
-                }
-            ]);
-        }
-
-        function validateMissingBodyElement(response, element) {
-            expect(response.body.errors).to.deep.equal([
-                {
-                    "field": [
-                        element
-                    ],
-                    "location": "body",
-                    "messages": [
-                        `"${element}" is required`
-                    ],
-                    "types": [
-                        "any.required"
-                    ]
-                }
-            ]);
-        }
     });
 });
