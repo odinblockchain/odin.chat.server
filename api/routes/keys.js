@@ -28,7 +28,13 @@ const putKey = async (req, res) => {
     logger.info(`Put keys: ${JSON.stringify(req.body)}`);
     try {
         await keyService.put({...req.body});
-        res.status(200).send(`OK`);
+
+        const resp = await keyService.get(req.body.deviceId, req.body.registrationId);
+
+        // Send back count of keys stored
+        res.status(200).json({
+            count: _.size(resp.preKeys)
+        });
     } catch (ex) {
         logger.error(ex);
         res.status(500).send(ex.toString());

@@ -32,7 +32,7 @@ describe('/keys integration tests', function () {
             .catch((err) => done(err));
     });
 
-    it('should return 200 when keys are store', function (done) {
+    it('should return 200 and count of keys stored successfully', function (done) {
         request(app)
             .put('/keys')
             .send({
@@ -57,7 +57,7 @@ describe('/keys integration tests', function () {
             })
             .expect(200)
             .then(response => {
-                expect(response.body).to.deep.equal({});
+                expect(response.body).to.deep.equal({count: 2});
                 done();
             })
             .catch((err) => done(err));
