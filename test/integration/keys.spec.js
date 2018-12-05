@@ -32,8 +32,38 @@ describe('/keys integration tests', function () {
             .catch((err) => done(err));
     });
 
-    describe('validation', function () {
+    it('should return 200 when keys are store', function (done) {
+        request(app)
+            .put('/keys')
+            .send({
+                deviceId: 124,
+                registrationId: 456,
+                identityKey: "abcdef",
+                signedPreKey: {
+                    id: 666,
+                    key: "abcdef",
+                    signature: "abcdef"
+                },
+                preKeys: [
+                    {
+                        id: 444,
+                        key: "aaaa"
+                    },
+                    {
+                        id: 555,
+                        key: "bbbbb"
+                    }
+                ]
+            })
+            .expect(200)
+            .then(response => {
+                expect(response.body).to.deep.equal({});
+                done();
+            })
+            .catch((err) => done(err));
+    });
 
+    describe('validation', function () {
         describe('GET keys', function () {
             it('should validate missing query param [deviceId]', function (done) {
                 request(app)
@@ -67,7 +97,6 @@ describe('/keys integration tests', function () {
         });
 
         describe('PUT keys', function () {
-
             it('should validate missing body param [deviceId]', function () {
                 request(app)
                     .put('/keys')
@@ -79,10 +108,16 @@ describe('/keys integration tests', function () {
                                 "key": "abcdef",
                                 "signature": "abcdef"
                             },
-                            "preKey": {
-                                "id": 444,
-                                "key": "abcdef"
-                            }
+                            "preKeys": [
+                                {
+                                    "id": 444,
+                                    "key": "aaaa"
+                                },
+                                {
+                                    "id": 555,
+                                    "key": "bbbbb"
+                                }
+                            ]
                         }
                     )
                     .expect('Content-Type', /json/)
@@ -93,8 +128,6 @@ describe('/keys integration tests', function () {
                     })
                     .catch((err) => done(err));
             });
-
         });
-
     });
 });

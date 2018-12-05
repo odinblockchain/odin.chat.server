@@ -1,7 +1,7 @@
-const GetKeys = require('./GetKeys');
+const KeyLookParams = require('./KeyLookParams');
 const RegisterKeys = require('./RegisterKeys');
 
 module.exports = {
-    GetKeys,
+    KeyLookParams,
     RegisterKeys,
 };
