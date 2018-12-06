@@ -55,10 +55,10 @@ const getPreKeyCount = async (req, res) => {
 };
 
 // Get pre-key count
-keys.get('/count', validate(validation.KeyLookParams), getPreKeyCount);
+keys.get('/count', validate(validation.KeyLookupParams), getPreKeyCount);
 
 // Manage pre-keys
-keys.get('/', validate(validation.KeyLookParams), getKey);
+keys.get('/', validate(validation.KeyLookupParams), getKey);
 keys.put('/', validate(validation.RegisterKeys), putKey);
 
 module.exports = keys;

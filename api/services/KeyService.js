@@ -19,8 +19,7 @@ class KeyService {
         const keys = await this.db.get(`k-${deviceId}-${registrationId}`);
         console.log(keys);
 
-        // TODO handle replenishing of preKeys
-
+        // FIXME handle replenishing of preKeys will be needed once you run out out preKeys - for now re-use key
         const preKeyToUse = keys.preKeys.length > 1
             ? keys.preKeys.pop()
             : keys.preKeys[0];
@@ -28,10 +27,10 @@ class KeyService {
         // Copy obj without the full array of preKeys
         const keyObj = _.omit(_.clone(keys), 'preKeys');
 
-        // Update the keys
+        // Update the keys - without the plucked preKey
         await this.put(keys);
 
-        // Send back the objc with only one key
+        // Send back the object with only one key
         return _.merge(keyObj, {
             preKey: preKeyToUse
         });

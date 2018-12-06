@@ -8,7 +8,7 @@ module.exports = {
         allowUnknownParams: false
     },
     query: {
-        // TODO EXTRACT COMMON
+        // FIXME - a common pattern is emerging for account lookups - refactor to use this common validation check
         deviceId: Joi.number().integer().required(),
         registrationId: Joi.number().integer().required()
     }
