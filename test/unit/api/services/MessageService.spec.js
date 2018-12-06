@@ -14,7 +14,7 @@ describe('MessageService tests', function () {
         this.messageService = new MessageService(db);
     });
 
-    it('should be able to put & get a message', async () => {
+    it('should be able to put & getAll a message', async () => {
 
         const msg = {
             destinationDeviceId: 456,
