@@ -74,7 +74,13 @@ describe('/messages integration tests', function () {
                     .send({
                         // destinationDeviceId: 456,
                         destinationRegistrationId: 456,
-                        ciphertextMessage: "some message",
+                        registrationId: 123,
+                        deviceId: 456,
+                        ciphertextMessage: {
+                            body: "some message",
+                            registrationId: 123,
+                            type: 1,
+                        },
                     })
                     .expect('Content-Type', /json/)
                     .expect(400)
@@ -91,7 +97,13 @@ describe('/messages integration tests', function () {
                     .send({
                         destinationDeviceId: 456,
                         // destinationRegistrationId: 456,
-                        ciphertextMessage: "some message",
+                        registrationId: 123,
+                        deviceId: 456,
+                        ciphertextMessage: {
+                            body: "some message",
+                            registrationId: 123,
+                            type: 1,
+                        },
                     })
                     .expect('Content-Type', /json/)
                     .expect(400)
@@ -102,18 +114,36 @@ describe('/messages integration tests', function () {
                     .catch((err) => done(err));
             });
 
-            it('should validate missing body param [ciphertextMessage]', function (done) {
+            it('should validate missing body param [ciphertextMessage.registrationId]', function (done) {
                 request(app)
                     .put('/messages')
                     .send({
                         destinationDeviceId: 456,
                         destinationRegistrationId: 456,
-                        // ciphertextMessage: "some message",
+                        deviceId: 456,
+                        ciphertextMessage: {
+                            body: "some message",
+                            // registrationId: 123,
+                            type: 1,
+                        },
                     })
                     .expect('Content-Type', /json/)
                     .expect(400)
                     .then(response => {
-                        validateMissingBodyElement(response, "ciphertextMessage");
+                        expect(response.body.errors).to.deep.equal([
+                            {
+                                field: ['registrationId'],
+                                location: 'body',
+                                messages: ['"registrationId" is required'],
+                                types: ['any.required']
+                            },
+                            {
+                                field: ['ciphertextMessage', 'registrationId'],
+                                location: 'body',
+                                messages: ['"registrationId" is required'],
+                                types: ['any.required']
+                            }
+                        ]);
                         return done();
                     })
                     .catch((err) => done(err));

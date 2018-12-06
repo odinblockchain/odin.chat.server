@@ -8,6 +8,7 @@ module.exports = {
         allowUnknownParams: false
     },
     query: {
+        // TODO EXTRACT COMMON
         deviceId: Joi.number().integer().required(),
         registrationId: Joi.number().integer().required()
     }

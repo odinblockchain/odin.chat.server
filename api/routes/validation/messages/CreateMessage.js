@@ -9,6 +9,14 @@ module.exports = {
     body: {
         destinationDeviceId: Joi.number().integer().required(),
         destinationRegistrationId: Joi.number().integer().required(),
-        ciphertextMessage: Joi.string().required()
+        deviceId: Joi.number().required(),
+        registrationId: Joi.number().required(),
+        ciphertextMessage: Joi.object()
+            .keys({
+                body: Joi.string().required(),
+                registrationId: Joi.number().required(),
+                type: Joi.number().required()
+            })
+            .required(),
     }
 };
