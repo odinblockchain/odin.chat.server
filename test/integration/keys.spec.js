@@ -40,18 +40,18 @@ describe('/keys integration tests', function () {
                 registrationId: 456,
                 identityKey: "abcdef",
                 signedPreKey: {
-                    id: 666,
-                    key: "abcdef",
+                    keyId: 666,
+                    publicKey: "abcdef",
                     signature: "abcdef"
                 },
                 preKeys: [
                     {
-                        id: 444,
-                        key: "aaaa"
+                        keyId: 444,
+                        publicKey: "aaaa"
                     },
                     {
-                        id: 555,
-                        key: "bbbbb"
+                        keyId: 555,
+                        publicKey: "bbbbb"
                     }
                 ]
             })
@@ -104,18 +104,18 @@ describe('/keys integration tests', function () {
                             "registrationId": 456,
                             "identityKey": "abcdef",
                             "signedPreKey": {
-                                "id": 666,
-                                "key": "abcdef",
+                                "keyId": 666,
+                                "publicKey": "abcdef",
                                 "signature": "abcdef"
                             },
                             "preKeys": [
                                 {
-                                    "id": 444,
-                                    "key": "aaaa"
+                                    "keyId": 444,
+                                    "publicKey": "aaaa"
                                 },
                                 {
-                                    "id": 555,
-                                    "key": "bbbbb"
+                                    "keyId": 555,
+                                    "publicKey": "bbbbb"
                                 }
                             ]
                         }

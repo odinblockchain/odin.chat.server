@@ -2,8 +2,8 @@ const Joi = require('joi');
 
 const preKeySchema = Joi.object()
     .keys({
-        id: Joi.number().required(),
-        key: Joi.string().required()
+        keyId: Joi.number().required(),
+        publicKey: Joi.string().required()
     })
     .required();
 
@@ -22,8 +22,8 @@ module.exports = {
         signedPreKey:
             Joi.object()
                 .keys({
-                    id: Joi.number().required(),
-                    key: Joi.string().required(),
+                    keyId: Joi.number().required(),
+                    publicKey: Joi.string().required(),
                     signature: Joi.string().required()
                 })
                 .required(),

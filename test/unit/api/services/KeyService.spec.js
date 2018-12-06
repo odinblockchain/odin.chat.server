@@ -13,7 +13,7 @@ describe('KeyService tests', function () {
         this.keyService = new KeyService(db);
     });
 
-    it('should be able to put & get the same key', async () => {
+    it('should be able to put & getAll the same key', async () => {
         const deviceId = "123";
         const registrationId = "ABC";
         const someOtherData = {test: [1], bool: true, sting: "A string"};
@@ -25,7 +25,7 @@ describe('KeyService tests', function () {
         };
         await this.keyService.put(key);
 
-        const found = await this.keyService.get(deviceId, registrationId);
+        const found = await this.keyService.getAll(deviceId, registrationId);
 
         expect(found).to.be.deep.equal(key);
     });

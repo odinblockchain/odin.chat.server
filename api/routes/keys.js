@@ -15,7 +15,7 @@ const validation = require('./validation/keys');
 const getKey = async (req, res) => {
     logger.info(`Get keys: device [${req.query.deviceId}] registration [${req.query.registrationId}]`);
     try {
-        const resp = await keyService.get(req.query.deviceId, req.query.registrationId);
+        const resp = await keyService.getNextKey(req.query.deviceId, req.query.registrationId);
         logger.info(`Found keys`, resp);
         res.json(resp);
     } catch (ex) {
@@ -29,7 +29,7 @@ const putKey = async (req, res) => {
     try {
         await keyService.put({...req.body});
 
-        const resp = await keyService.get(req.body.deviceId, req.body.registrationId);
+        const resp = await keyService.getAll(req.body.deviceId, req.body.registrationId);
 
         // Send back count of keys stored
         res.status(200).json({
@@ -44,7 +44,7 @@ const putKey = async (req, res) => {
 const getPreKeyCount = async (req, res) => {
     logger.info(`Get keys count: device [${req.query.deviceId}] registration [${req.query.registrationId}]`);
     try {
-        const resp = await keyService.get(req.query.deviceId, req.query.registrationId);
+        const resp = await keyService.getAll(req.query.deviceId, req.query.registrationId);
         res.status(200).json({
             count: _.size(resp.preKeys)
         });
