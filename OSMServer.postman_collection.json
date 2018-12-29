@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "a87995b5-8f44-4589-beda-631002a6ba30",
+		"_postman_id": "5959e3d4-2cb6-49d5-bcf5-6f6314514689",
 		"name": "OSMServer",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
@@ -38,7 +38,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n    \"deviceId\": 123,\n    \"registrationId\": 456,\n    \"identityKey\": \"abcdef\",\n    \"signedPreKey\": {\n        \"id\": 666,\n        \"key\": \"abcdef\",\n        \"signature\": \"abcdef\"\n    },\n    \"preKey\": {\n        \"id\": 444,\n        \"key\": \"abcdef\"\n    }\n}\n        "
+					"raw": "{\n\t\"address\": {\n    \t\"name\": \"user@coin\",\n    \t\"registrationId\": 1111,\n    \t\"deviceId\": 123\n\t},\n\t\"identityPubKey\": \"Xabc123\",\n\t\"signedPreKey\": {\n    \t\"id\": 666,\n    \t\"pubKey\": \"abcdef\",\n    \t\"signature\": \"abcdef\"\n\t},\n\t\"publicPreKeys\": [\n    \t{\n    \t\t\"id\": 100,\n\t    \t\"pubKey\": \"aaaa\"\n    \t},\n    \t{\n    \t\t\"id\": 101,\n    \t\t\"pubKey\": \"bbbbb\"\n    \t}\n\t]\n}\n        "
 				},
 				"url": {
 					"raw": "localhost:3000/keys",
@@ -91,7 +91,7 @@
 					"raw": ""
 				},
 				"url": {
-					"raw": "localhost:3000/keys?deviceId=123&registrationId=456",
+					"raw": "localhost:3000/keys?user=user@coin",
 					"host": [
 						"localhost"
 					],
@@ -101,12 +101,8 @@
 					],
 					"query": [
 						{
-							"key": "deviceId",
-							"value": "123"
-						},
-						{
-							"key": "registrationId",
-							"value": "456"
+							"key": "user",
+							"value": "user@coin"
 						}
 					]
 				}

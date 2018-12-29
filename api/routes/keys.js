@@ -13,11 +13,11 @@ const logger = require('../logging');
 const validation = require('./validation/keys');
 
 const getKey = async (req, res) => {
-  const { name, registrationId, deviceId } = req.query;
-  logger.info(`Request::GetKey name[${name}] registration[${registrationId}] device[${deviceId}]`);
+  const { user } = req.query;
+  logger.info(`Request::GetNextKey name[${user}]`);
 
   try {
-    const resp = await keyService.getNextKey(name, registrationId, deviceId);
+    const resp = await keyService.getNextKey(user);
     logger.info(`Found keys`, resp);
     res.json(resp);
   } catch (ex) {
@@ -31,11 +31,12 @@ const putKey = async (req, res) => {
   try {
     await keyService.put({...req.body});
 
-    const { name, registrationId, deviceId } = req.body.address;
-    const resp = await keyService.getAll(name, registrationId, deviceId);
+    const { name } = req.body.address;
+    const resp = await keyService.getAll(name);
 
     // Send back count of keys stored
-    res.status(200).json({
+    res.status(200)
+    .json({
       count: _.size(resp.publicPreKeys)
     });
   } catch (ex) {
@@ -45,11 +46,11 @@ const putKey = async (req, res) => {
 };
 
 const getPreKeyCount = async (req, res) => {
-  const { name, registrationId, deviceId } = req.query;
-  logger.info(`Request::GetKeyCount name[${name}] registration[${registrationId}] device[${deviceId}]`);
+  const { user } = req.query;
+  logger.info(`Request::GetKeyCount name[${user}]`);
 
   try {
-    const resp = await keyService.getAll(name, registrationId, deviceId);
+    const resp = await keyService.getAll(user);
     res.status(200).json({
       count: _.size(resp.publicPreKeys)
     });
