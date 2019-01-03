@@ -11,8 +11,8 @@ class KeyService {
     logger.info(`Find Keys: name[${name}]`);
 
     let user = await this.db.get(`k-${name}`);
-    delete user.address.registrationId;
-    delete user.address.deviceId;
+    // delete user.address.registrationId;
+    // delete user.address.deviceId;
 
     return user;
   }
@@ -20,29 +20,49 @@ class KeyService {
   async getNextKey(name) {
     logger.info(`Find Next Key: name[${name}]`);
 
-    const keys = await this.db.get(`k-${name}`);
-    delete keys.address.registrationId;
-    delete keys.address.deviceId;
+    const identityBundle = await this.db.get(`k-${name}`);
+    // delete keys.address.registrationId;
+    // delete keys.address.deviceId;
     
-    console.log(keys);
+    console.log('BEFORE...', {
+      address:    identityBundle.address,
+      totalKeys:  identityBundle.preKeys.length,
+      lastKey:    identityBundle.preKeys[identityBundle.preKeys.length - 1]
+    });
 
-    // FIXME handle replenishing of publicPreKeys will be needed once you run out out publicPreKeys
+    // FIXME handle replenishing of preKeys will be needed once you run out out preKeys
     // - for now re-use key
-    const preKeyToUse = keys.publicPreKeys.length > 1
-        ? keys.publicPreKeys.pop()
-        : keys.publicPreKeys[0];
+    // keys.preKeys = [];
 
-    // Copy obj without the full array of publicPreKeys
-    const keyObj = _.omit(_.clone(keys), 'publicPreKeys');
+    let nextPreKey;
+    if (identityBundle.preKeys.length === 0) {
+      nextPreKey = false;
+    } else {
+      nextPreKey = identityBundle.preKeys.pop();
+    }
+
+    // Copy obj without the full array of preKeys
+    // const keyObj = _.omit(_.clone(keys), 'publicPreKeys');
+
+    console.log('AFTER...', {
+      address:    identityBundle.address,
+      totalKeys:  identityBundle.preKeys.length,
+      lastKey:    identityBundle.preKeys[identityBundle.preKeys.length - 1]
+    });
 
     // Update the keys - without the plucked preKey
-    await this.put(keys);
+    // await this.put(identityBundle);
+    await this.db.put(`k-${name}`, identityBundle);
+    console.log('...done');
 
     // Send back the object with only one key
-    return _.merge(keyObj, {
-      publicPreKey: preKeyToUse
+    const identityPackage = _.omit(_.clone(identityBundle), 'preKeys');
+    return _.merge(identityPackage, {
+      publicPreKey: nextPreKey
     });
   }
+
+  // function preKeyExists()
 
   async put(keyReq) {
     const { name, registrationId, deviceId } = keyReq.address;
@@ -53,7 +73,34 @@ class KeyService {
       user = await this.db.get(`k-${name}`);
       logger.info(`Update store: name[${name}] registration[${registrationId}] device[${deviceId}]`);
       
-      return this.db.put(`k-${name}`, keyReq);
+      if ((user.preKeys.length + keyReq.preKeys.length) > 300) {
+        throw new Error('UserMaxPreKeys');
+      }
+
+      /**
+       * user.address.name
+       * user.address.deviceId
+       * user.address.registrationId
+       * 
+       * user.identityPubKey
+       * 
+       * user.signedPreKey.id
+       * user.signedPreKey.pubKey
+       * user.signedPreKey.signature
+       * 
+       * user.preKeys[]
+       * user.preKeys[].id
+       * user.preKeys[].pubKey
+       */
+
+      let preKeyIds = user.preKeys.map((key) => key.id);
+      keyReq.preKeys.forEach((preKey) => {
+        if (preKeyIds.indexOf(preKey.id) === -1) {
+          user.preKeys.push(preKey);
+        }
+      });
+
+      return this.db.put(`k-${name}`, user);
     } catch (err) {
       if (err.type === 'NotFoundError') {
         logger.info(`New store: name[${name}] registration[${registrationId}] device[${deviceId}]`);

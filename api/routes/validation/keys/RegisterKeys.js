@@ -29,7 +29,7 @@ module.exports = {
           pubKey: Joi.string().required(), //publicKey
           signature: Joi.string().required()
         }).required(),
-      publicPreKeys:
+      preKeys:
         Joi.array()
         .items(preKeySchema).required().min(1)
     }
