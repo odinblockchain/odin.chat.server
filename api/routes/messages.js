@@ -18,7 +18,7 @@ const getMessages = async (req, res) => {
 
         logger.info(`Found messages: ${JSON.stringify(resp)}`);
 
-        res.json(resp);
+        res.status(200).json({ status: 'ok', messages: resp });
     } catch (ex) {
         logger.error(ex);
 
@@ -32,7 +32,7 @@ const putMessage = async (req, res) => {
     try {
         await messageService.put({...req.body});
 
-        res.status(200).send(`OK`);
+        res.status(200).json({ status: 'ok' });
     } catch (ex) {
         logger.error(ex);
 
@@ -46,7 +46,7 @@ const deleteMessage = async (req, res) => {
     try {
         await messageService.del(req.query.key);
 
-        res.status(200).send(`OK`);
+        res.status(200).json({ status: 'ok' });
     } catch (ex) {
         logger.error(ex);
 

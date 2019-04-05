@@ -11,12 +11,14 @@ module.exports = {
         destinationRegistrationId: Joi.number().integer().required(),
         deviceId: Joi.number().required(),
         registrationId: Joi.number().required(),
-        ciphertextMessage: Joi.object()
-            .keys({
-                body: Joi.string().required(),
-                registrationId: Joi.number().required(),
-                type: Joi.number().required()
-            })
-            .required(),
+        accountHash: Joi.string().required(),
+        ciphertextMessage: Joi.string().required()
+        // ciphertextMessage: Joi.object()
+        //     .keys({
+        //         body: Joi.string().required(),
+        //         registrationId: Joi.number().required(),
+        //         type: Joi.number().required()
+        //     })
+        //     .required(),
     }
 };
