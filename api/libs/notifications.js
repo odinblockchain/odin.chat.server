@@ -23,7 +23,7 @@ module.exports = {
         "notification": {
           "title": title,
           "text": message,
-          "click_action": "openODINChat",
+          "click_action": "ODIN_ACTIVITY_2",
           "badge": "1",
           "sound": "default",
           "icon": "",
