@@ -14,30 +14,26 @@ const getMessages = async (req, res) => {
     logger.info(`Get messages: device [${req.query.deviceId}] registration [${req.query.registrationId}]`);
 
     try {
-        const resp = await messageService.get(req.query.deviceId, req.query.registrationId);
+      const resp = await messageService.get(req.query.deviceId, req.query.registrationId);
+      logger.info(`Found messages: ${JSON.stringify(resp)}`);
 
-        logger.info(`Found messages: ${JSON.stringify(resp)}`);
-
-        res.status(200).json({ status: 'ok', messages: resp });
+      res.status(200).json({ status: 'ok', messages: resp });
     } catch (ex) {
-        logger.error(ex);
-
-        res.status(404).send(ex.toString());
+      logger.error(ex);
+      res.status(404).send(ex.toString());
     }
 };
 
 const putMessage = async (req, res) => {
-    logger.info(`Put message: ${JSON.stringify(req.body)}`);
+  logger.info(`Put message: ${JSON.stringify(req.body)}`);
 
-    try {
-        await messageService.put({...req.body});
-
-        res.status(200).json({ status: 'ok' });
-    } catch (ex) {
-        logger.error(ex);
-
-        res.status(500).send(ex.toString());
-    }
+  try {
+    await messageService.put({...req.body});
+    res.status(200).json({ status: 'ok' });
+  } catch (ex) {
+    logger.error(ex);
+    res.status(500).send(ex.toString());
+  }
 };
 
 const deleteMessage = async (req, res) => {
@@ -54,8 +50,8 @@ const deleteMessage = async (req, res) => {
     }
 };
 
-messages.get('/', validate(validation.GetMessage), getMessages);
 messages.put('/', validate(validation.CreateMessage), putMessage);
+messages.get('/', validate(validation.GetMessage), getMessages);
 messages.delete('/', validate(validation.DeleteMessage), deleteMessage);
 
 module.exports = messages;

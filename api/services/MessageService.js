@@ -1,4 +1,5 @@
 const logger = require('../logging');
+const notification = require('../libs/notifications');
 
 class MessageService {
 
@@ -26,20 +27,40 @@ class MessageService {
     }
 
     async del(key) {
-        logger.info(`Deleting message: key [${key}]`);
+      logger.info(`Deleting message: key [${key}]`);
 
-        return this.db.del(`${key}`);
+      return this.db.del(`${key}`);
     }
 
     async put(message, timestamp = new Date().getTime()) {
-        const {destinationDeviceId, destinationRegistrationId} = message;
-        logger.info(`Put message:  device [${destinationDeviceId}] registration [${destinationRegistrationId}]`);
+      const { destinationDeviceId, destinationRegistrationId } = message;
+      logger.info(`Put message:  device [${destinationDeviceId}] registration [${destinationRegistrationId}]`);
 
-        const msgObj = {
-            ...message,
-            timestamp: timestamp
-        };
-        return this.db.put(`m-${destinationDeviceId}-${destinationRegistrationId}-${timestamp}`, msgObj);
+      const msgObj = {
+        ...message,
+        timestamp: timestamp
+      };
+
+      try {
+        logger.info(`f-${destinationDeviceId}${destinationRegistrationId}`);
+
+        const userFcm = await this.db.get(`f-${destinationDeviceId}${destinationRegistrationId}`);
+        console.log(userFcm);
+        // logger.info(`...notifying [${userFcm.fcmToken}]`);
+
+        notification.push(userFcm.fcmToken, 'New Message', `Conversation with ${message.accountHash}`, {
+          id: message.accountHash,
+          data: {
+            username: message.accountHash
+          }
+        });
+      } catch (err) {
+        console.log(err);
+        console.log(err.type);
+        logger.info(`...no token for [${userFcm.fcmToken}]`);
+      }
+
+      return this.db.put(`m-${destinationDeviceId}-${destinationRegistrationId}-${timestamp}`, msgObj);
     }
 }
 

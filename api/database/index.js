@@ -10,7 +10,7 @@ const db = level(dbConfig.path, {
 });
 
 db.on('put', function (key, value) {
-  logger.info(`inserted k:${key}`);
+  logger.info(`[db] inserted ${key}`);
 })
 
 module.exports = db;

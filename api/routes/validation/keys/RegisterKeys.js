@@ -1,38 +1,39 @@
 const Joi = require('joi');
 
 const preKeySchema = Joi.object()
-    .keys({
-        id: Joi.number().required(), //keyId
-        pubKey: Joi.string().required() //publicKey
-    })
-    .required();
+                    .keys({
+                      id: Joi.number().required(), //keyId
+                      pubKey: Joi.string().required() //publicKey
+                    })
+                    .required();
 
 module.exports = {
-    options: {
-        allowUnknownBody: false,
-        allowUnknownQuery: false,
-        allowUnknownParams: false
-    },
-    body: {
-      address:
-        Joi.object()
-        .keys({
-          name: Joi.string().required(),
-          deviceId: Joi.number().required(),
-          registrationId: Joi.number().required()
-        }).required(),
-      identityPubKey: Joi.string().required(), //identityKey
-      signedPreKey:
-        Joi.object()
-        .keys({
-          id: Joi.number().required(), //keyId
-          pubKey: Joi.string().required(), //publicKey
-          signature: Joi.string().required()
-        }).required(),
-      preKeys:
-        Joi.array()
-        .items(preKeySchema).required().min(1)
-    }
+  options: {
+    allowUnknownBody: false,
+    allowUnknownQuery: false,
+    allowUnknownParams: false
+  },
+  body: {
+    address:
+      Joi.object()
+      .keys({
+        name: Joi.string().required(),
+        deviceId: Joi.number().required(),
+        registrationId: Joi.number().required()
+      }).required(),
+    identityPubKey: Joi.string().required(), //identityKey
+    signedPreKey:
+      Joi.object()
+      .keys({
+        id: Joi.number().required(), //keyId
+        pubKey: Joi.string().required(), //publicKey
+        signature: Joi.string().required()
+      }).required(),
+    preKeys:
+      Joi.array()
+      .items(preKeySchema).required().min(1),
+    fcmToken: Joi.string().optional()
+  }
     // body: {
     //     deviceId: Joi.number().integer().required(),
     //     accountHash: Joi.string().required(),

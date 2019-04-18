@@ -8,5 +8,8 @@
   "logging": {
     "errorLog": "logs/errors.log",
     "defaultLog": "logs/application.log"
+  },
+  "firebase": {
+    "key": "aaabbb"
   }
 }

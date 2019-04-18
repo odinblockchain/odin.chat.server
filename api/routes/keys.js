@@ -27,9 +27,8 @@ const getKey = async (req, res) => {
 };
 
 const putKey = async (req, res) => {
-  logger.info(`Put keys: ${JSON.stringify(req.body)}`);
   try {
-    await keyService.put({...req.body});
+    await keyService.put(req.body);
 
     const { name } = req.body.address;
     const resp = await keyService.getAll(name);
