@@ -65,10 +65,11 @@ class KeyService {
     try {
       user = await this.db.get(`k-${name}`);
       logger.info(`...updating [${name}]`);
+      logger.info(`...preKeys ${preKeys.length}`);
 
       if ((user.preKeys.length + preKeys.length) > 300) {
         logger.info(`...max keys [${name}]`);
-        // throw new Error('UserMaxPreKeys');
+        throw new Error('UserMaxPreKeys');
       } else {
         const preKeyIds = user.preKeys.map((key) => key.id);
         preKeys.forEach((preKey) => {
@@ -82,8 +83,8 @@ class KeyService {
       event: [update]
       user:
         name:     ${name}
-        regId:    ${registrationId} (${user.registrationId})
-        devId     ${deviceId} (${user.deviceId})
+        regId:    ${registrationId} > (${user.registrationId})
+        devId     ${deviceId} > (${user.deviceId})
         preKeys:  ${preKeys.length}
       identityPubKey:
         key: ${identityPubKey}
@@ -96,7 +97,7 @@ class KeyService {
         id: ${preKeys[0].id}
         pubKey: ${preKeys[0].pubKey}
       fcm:
-        token: ${fcmToken} (${user.fcmToken})
+        token: ${fcmToken} > (${user.fcmToken})
       `);
 
       /**
@@ -115,10 +116,10 @@ class KeyService {
        * user.preKeys[].pubKey
        */
 
-      // update some user settings below
-      user.fcmToken = fcmToken;
-      user.registrationId = registrationId;
-      user.deviceId = deviceId;
+      // update some user settings below (if provided)
+      user.fcmToken = (fcmToken || fcmToken === '') ? fcmToken : user.fcmToken;
+      user.registrationId = (registrationId || registrationId === '') ? registrationId : user.registrationId;
+      user.deviceId = (deviceId || deviceId === '') ? deviceId : user.deviceId;
 
       return this.db.put(`k-${name}`, user);
     } catch (err) {

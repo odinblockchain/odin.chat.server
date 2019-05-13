@@ -36,11 +36,14 @@ const putKey = async (req, res) => {
     // Send back count of keys stored
     res.status(200)
     .json({
+      status: 'ok',
       count: _.size(resp.preKeys)
     });
-  } catch (ex) {
-    logger.error(ex);
-    res.status(500).send(ex.toString());
+  } catch (err) {
+    console.log('GOT ERR', err.message ? err.message : err);
+    logger.error(err);
+    res.status(500)
+    .send(err.message);
   }
 };
 
@@ -51,6 +54,7 @@ const getPreKeyCount = async (req, res) => {
   try {
     const resp = await keyService.getAll(user);
     res.status(200).json({
+      status: 'ok',
       count: _.size(resp.preKeys)
     });
   } catch (ex) {

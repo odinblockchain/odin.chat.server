@@ -32,7 +32,7 @@ module.exports = {
     preKeys:
       Joi.array()
       .items(preKeySchema).required().min(1),
-    fcmToken: Joi.string().optional()
+    fcmToken: Joi.string().allow('').optional()
   }
     // body: {
     //     deviceId: Joi.number().integer().required(),
